@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ECDB08A7-5597-4A75-A2A6-12D57A8E99FF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenAM.Core</RootNamespace>
+    <AssemblyName>OpenAM.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\ru.org.openam.net.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Providers\AgentSettingsProvider.cs" />
+    <Compile Include="Constants\AuthConstants.cs" />
+    <Compile Include="Constants\NamingConstants.cs" />
+    <Compile Include="Constants\RequestConstants.cs" />
+    <Compile Include="Entities\Auth\Callbacks\CallbackList.cs" />
+    <Compile Include="Entities\Auth\Callbacks\PagePropertiesCallback.cs" />
+    <Compile Include="Entities\Naming\Naming.cs" />
+    <Compile Include="Entities\Auth\AuthStatus.cs" />
+    <Compile Include="Entities\Auth\Requests\IndexTypeNamePair.cs" />
+    <Compile Include="Entities\Auth\Requests\Login.cs" />
+    <Compile Include="Entities\Auth\Callbacks\CallbackBase.cs" />
+    <Compile Include="Entities\Auth\Requests\AuthIdentifierRequest.cs" />
+    <Compile Include="Entities\Auth\Requests\AuthIdentifierRequestRequest.cs" />
+    <Compile Include="Entities\Auth\Callbacks\NameCallback.cs" />
+    <Compile Include="Entities\Auth\Callbacks\PasswordCallback.cs" />
+    <Compile Include="Entities\Auth\Requests\LoginRequest.cs" />
+    <Compile Include="Entities\Auth\Requests\LoginRequestRequest.cs" />
+    <Compile Include="Entities\Auth\Requests\SubmitRequirements.cs" />
+    <Compile Include="Entities\Auth\Responses\AuthException.cs" />
+    <Compile Include="Entities\Auth\Responses\LoginRequirements.cs" />
+    <Compile Include="Entities\Auth\Responses\AuthIdentifierResponse.cs" />
+    <Compile Include="Entities\Auth\Responses\AuthIdentifierResponseResponse.cs" />
+    <Compile Include="Entities\Auth\Responses\LoginResponse.cs" />
+    <Compile Include="Entities\Auth\Responses\LoginResponseResponse.cs" />
+    <Compile Include="Entities\Auth\Responses\LoginStatus.cs" />
+    <Compile Include="Entities\Session\Requests\Session.cs" />
+    <Compile Include="Entities\Session\Requests\SessionRequest.cs" />
+    <Compile Include="Entities\Session\Responses\GetSession.cs" />
+    <Compile Include="Entities\Session\Responses\Session.cs" />
+    <Compile Include="Entities\Session\Responses\SessionResponse.cs" />
+    <Compile Include="Providers\GenericResponseProvider.cs" />
+    <Compile Include="Providers\IGenericResponseProvider.cs" />
+    <Compile Include="Providers\INamingProvider.cs" />
+    <Compile Include="Providers\IRequestIdProvider.cs" />
+    <Compile Include="Providers\RequestIdProvider.cs" />
+    <Compile Include="Entities\Naming\Requests\NamingRequest.cs" />
+    <Compile Include="Entities\RequestBase.cs" />
+    <Compile Include="Entities\RequestSet.cs" />
+    <Compile Include="Providers\NamingProvider.cs" />
+    <Compile Include="Entities\Property.cs" />
+    <Compile Include="Entities\Naming\Responses\NamingProfile.cs" />
+    <Compile Include="Entities\Naming\Responses\NamingResponse.cs" />
+    <Compile Include="Entities\ResponseBase.cs" />
+    <Compile Include="Entities\ResponseSet.cs" />
+    <Compile Include="Serialization\BaseTypeXmlSerializer.cs" />
+    <Compile Include="Serialization\IRequestSerializer.cs" />
+    <Compile Include="Serialization\IResponseSerializer.cs" />
+    <Compile Include="Serialization\IXmlSerializer.cs" />
+    <Compile Include="Serialization\RequestSerializer.cs" />
+    <Compile Include="Serialization\ResponseSerializer.cs" />
+    <Compile Include="Serialization\XmlSerializer.cs" />
+    <Compile Include="Settings\AgentSettings.cs" />
+    <Compile Include="Entities\FetchMode.cs" />
+    <Compile Include="Settings\HttpClientSettings.cs" />
+    <Compile Include="Entities\Policy\Policy.cs" />
+    <Compile Include="Entities\Auth\AuthType.cs" />
+    <Compile Include="Entities\RequestType.cs" />
+    <Compile Include="Entities\Session\Session.cs" />
+    <Compile Include="Exceptions\ExceptionShield.cs" />
+    <Compile Include="Exceptions\HttpClientException.cs" />
+    <Compile Include="Exceptions\IExceptionShield.cs" />
+    <Compile Include="Exceptions\SessionException.cs" />
+    <Compile Include="Providers\IAgentSettingsProvider.cs" />
+    <Compile Include="Providers\IPolicyProvider.cs" />
+    <Compile Include="Providers\IUserProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ISessionProvider.cs" />
+    <Compile Include="Providers\PolicyProvider.cs" />
+    <Compile Include="Providers\UserProvider.cs" />
+    <Compile Include="Providers\SessionProvider.cs" />
+    <Compile Include="Settings\SessionProviderSettings.cs" />
+    <Compile Include="Web\CookieHelper.cs" />
+    <Compile Include="Web\HttpClient.cs" />
+    <Compile Include="Web\HttpContextHelper.cs" />
+    <Compile Include="Web\ICookieHelper.cs" />
+    <Compile Include="Web\IHttpClient.cs" />
+    <Compile Include="Web\IHttpContextHelper.cs" />
+    <Compile Include="Web\IUrlHelper.cs" />
+    <Compile Include="Web\UrlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ru.org.openam.net.snk">
+      <Link>ru.org.openam.net.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
