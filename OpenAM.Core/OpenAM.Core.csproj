@@ -80,9 +80,8 @@
     <Compile Include="Entities\Session\Responses\Session.cs" />
     <Compile Include="Entities\Session\Responses\SessionResponse.cs" />
     <Compile Include="Providers\GenericResponseProvider.cs" />
+    <Compile Include="Providers\IDataProvider.cs" />
     <Compile Include="Providers\IGenericResponseProvider.cs" />
-    <Compile Include="Providers\INamingProvider.cs" />
-    <Compile Include="Providers\IRequestIdProvider.cs" />
     <Compile Include="Providers\RequestIdProvider.cs" />
     <Compile Include="Entities\Naming\Requests\NamingRequest.cs" />
     <Compile Include="Entities\RequestBase.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="Exceptions\HttpClientException.cs" />
     <Compile Include="Exceptions\IExceptionShield.cs" />
     <Compile Include="Exceptions\SessionException.cs" />
-    <Compile Include="Providers\IAgentSettingsProvider.cs" />
     <Compile Include="Providers\IPolicyProvider.cs" />
     <Compile Include="Providers\IUserProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

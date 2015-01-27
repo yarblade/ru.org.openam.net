@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Linq;
 using OpenAM.Core.Constants;
-using OpenAM.Core.Entities;
 using OpenAM.Core.Entities.Naming;
 using OpenAM.Core.Entities.Naming.Requests;
 using OpenAM.Core.Entities.Naming.Responses;
 
 namespace OpenAM.Core.Providers
 {
-    public class NamingProvider : INamingProvider
+    public class NamingProvider : IDataProvider<Naming>
     {
-        private readonly IRequestIdProvider _requestIdProvider;
+        private readonly IDataProvider<int> _requestIdProvider;
         private readonly IGenericResponseProvider _responseProvider;
         private readonly string _url;
 
-        public NamingProvider(IRequestIdProvider requestIdProvider, IGenericResponseProvider responseProvider, string url)
+        public NamingProvider(IDataProvider<int> requestIdProvider, IGenericResponseProvider responseProvider, string url)
         {
             _requestIdProvider = requestIdProvider;
             _responseProvider = responseProvider;
             _url = url;
         }
 
-        public Naming GetNaming()
+        public Naming Get()
         {
-            var requestId = _requestIdProvider.GetRequestId();
+            var requestId = _requestIdProvider.Get();
             var response = _responseProvider.Get<NamingRequest, NamingResponse>(
                 new NamingRequest
                 {

@@ -12,14 +12,14 @@ using Session = OpenAM.Core.Entities.Session.Session;
 
 namespace OpenAM.Core.Providers
 {
-    public class SessionProvider : ISessionProvider
+    public class SessionProvider : IDataProvider<Session>
     {
-        private readonly IRequestIdProvider _requestIdProvider;
+        private readonly IDataProvider<int> _requestIdProvider;
         private readonly IGenericResponseProvider _responseProvider;
         private readonly SessionProviderSettings _settings;
 
         public SessionProvider(
-            IRequestIdProvider requestIdProvider,
+            IDataProvider<int> requestIdProvider,
             IGenericResponseProvider responseProvider,
             SessionProviderSettings settings)
         {
@@ -38,26 +38,26 @@ namespace OpenAM.Core.Providers
             return new Session(authCookie);
         }
 
-        public Session GetSession(Naming naming)
+        public Session Get()
         {
             var response = _responseProvider.Get<AuthIdentifierRequest, AuthIdentifierResponse>(
-                new AuthIdentifierRequest
-                {
-                    Version = AuthConstants.Version,
-                    Request = new AuthIdentifierRequestRequest
-                    {
-                        AuthIdentifier = AuthConstants.EmptyAuthIdentifier,
-                        Login = new Login
-                        {
-                            OrgName = _settings.OrgName,
-                            IndexTypeNamePair = new IndexTypeNamePair
-                            {
-                                IndexName = _settings.IndexName,
-                                IndexType = _settings.AuthType.ToString().ToLowerInvariant()
-                            }
-                        }
-                    }
-                });
+               new AuthIdentifierRequest
+               {
+                   Version = AuthConstants.Version,
+                   Request = new AuthIdentifierRequestRequest
+                   {
+                       AuthIdentifier = AuthConstants.EmptyAuthIdentifier,
+                       Login = new Login
+                       {
+                           OrgName = _settings.OrgName,
+                           IndexTypeNamePair = new IndexTypeNamePair
+                           {
+                               IndexName = _settings.IndexName,
+                               IndexType = _settings.AuthType.ToString().ToLowerInvariant()
+                           }
+                       }
+                   }
+               });
 
             var loginResponse = _responseProvider.Get<LoginRequest, LoginResponse>(
                 new LoginRequest
@@ -87,7 +87,7 @@ namespace OpenAM.Core.Providers
             var sessionResponse = _responseProvider.Get<SessionRequest, SessionResponse>(
                 new SessionRequest
                 {
-                    RequestId = _requestIdProvider.GetRequestId(),
+                    RequestId = _requestIdProvider.Get(),
                     Version = RequestConstants.Version,
                     Session = new Entities.Session.Requests.Session
                     {

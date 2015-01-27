@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAM.Core.Providers;
+using OpenAM.Core.Serialization;
+using OpenAM.Core.Settings;
+using OpenAM.Core.Web;
 
 namespace OpenAM.Core.UnitTests.BlackBox.Providers
 {
@@ -15,13 +18,21 @@ namespace OpenAM.Core.UnitTests.BlackBox.Providers
         {
             _url = MotherObject.Url + "/namingservice";
 
-            _namingProvider = MotherObject.CreateNamingProvider(MotherObject.Url + "/namingservice");
+            var requestIdProvider = new RequestIdProvider();
+            var xmlSerializer = new XmlSerializer();
+            var responseProvider = new GenericResponseProvider(
+                new RequestSerializer(requestIdProvider, xmlSerializer),
+                new HttpClient(new HttpClientSettings { ContentType = "text/xml; encoding='utf-8'", UserAgent = "openam.org.ru/1.0 (.Net)", KeepAlive = true }),
+                new ResponseSerializer(xmlSerializer),
+                _url);
+
+            _namingProvider = new NamingProvider(requestIdProvider, responseProvider, _url);
         }
 
         [TestMethod, TestCategory("BlackBox")]
         public void GetNamingTest()
         {
-            var naming = _namingProvider.GetNaming();
+            var naming = _namingProvider.Get();
             Assert.IsNotNull(naming, "Naming can't be null.");
             Assert.IsNotNull(naming.AuthUrl, "AuthUrl can't ve null.");
             Assert.IsTrue(naming.AuthUrl.StartsWith(_url), "AuthUrl must start from {0}", _url);

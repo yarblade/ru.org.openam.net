@@ -23,18 +23,14 @@ namespace OpenAM.Core.UnitTests.BlackBox
             get { return ConfigurationManager.AppSettings["Password"]; }
         }
 
-        public static NamingProvider CreateNamingProvider(string url)
+        public static string OrgName
         {
-            var requestIdProvider = new RequestIdProvider();
-            var xmlSerializer = new XmlSerializer();
+            get { return ConfigurationManager.AppSettings["OrgName"]; }
+        }
 
-            var responseProvider = new GenericResponseProvider(
-                new RequestSerializer(requestIdProvider, xmlSerializer),
-                new HttpClient(new HttpClientSettings { ContentType = "text/xml; encoding='utf-8'", UserAgent = "openam.org.ru/1.0 (.Net)", KeepAlive = true }),
-                new ResponseSerializer(xmlSerializer),
-                url);
-
-            return new NamingProvider(requestIdProvider, responseProvider, url);
+        public static string IndexName
+        {
+            get { return ConfigurationManager.AppSettings["IndexName"]; }
         }
     }
 }

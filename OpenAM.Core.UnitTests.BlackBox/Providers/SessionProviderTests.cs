@@ -20,8 +20,8 @@ namespace OpenAM.Core.UnitTests.BlackBox.Providers
             var settings = new SessionProviderSettings
             {
                 AuthType = AuthType.Service,
-                OrgName = "/clients",
-                IndexName = "ldap",
+                OrgName = MotherObject.OrgName,
+                IndexName = MotherObject.IndexName,
                 Login = MotherObject.Login,
                 Password = MotherObject.Password
             };
@@ -40,9 +40,7 @@ namespace OpenAM.Core.UnitTests.BlackBox.Providers
         [TestMethod, TestCategory("BlackBox")]
         public void GetSessionTest()
         {
-            var naming = MotherObject.CreateNamingProvider(MotherObject.Url + "/namingservice").GetNaming();
-
-            var session = _sessionProvider.GetSession(naming);
+            var session = _sessionProvider.Get();
             Assert.IsNotNull(session, "Session can't be null.");
             Assert.IsNotNull(session.Token, "Session Token can't be null.");
             Assert.IsNotNull(session.Properties, "Session Properties can't be null.");

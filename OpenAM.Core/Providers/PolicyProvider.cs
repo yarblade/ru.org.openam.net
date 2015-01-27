@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenAM.Core.Entities;
 using OpenAM.Core.Entities.Policy;
 using OpenAM.Core.Settings;
 

@@ -1,27 +1,25 @@
 ﻿using System.Web;
 using log4net;
-using OpenAM.Core;
 using OpenAM.Core.Exceptions;
 using OpenAM.Core.Providers;
+using OpenAM.Core.Settings;
 using OpenAM.Core.Web;
 
 namespace OpenAM.Agent
 {
     public class AgentHttpModule : BaseHttpModule
     {
-        private readonly INamingProvider _namingProvider;
-        private readonly IAgentSettingsProvider _settingsProvider;
         private readonly IHttpContextHelper _contextHelper;
-        private readonly IUrlHelper _urlHelper;
         private readonly ICookieHelper _cookieHelper;
-        private readonly IUserProvider _userProvider;
-        private readonly ISessionProvider _sessionProvider;
-        private readonly IPolicyProvider _policyProvider;
         private readonly ILog _log;
+        private readonly IPolicyProvider _policyProvider;
+        private readonly ISessionProvider _sessionProvider;
+        private readonly IDataProvider<AgentSettings> _settingsProvider;
+        private readonly IUrlHelper _urlHelper;
+        private readonly IUserProvider _userProvider;
 
         public AgentHttpModule(
-            INamingProvider namingProvider,
-            IAgentSettingsProvider settingsProvider,
+            IDataProvider<AgentSettings> settingsProvider,
             IHttpContextHelper contextHelper,
             IUrlHelper urlHelper,
             ICookieHelper cookieHelper,
@@ -31,7 +29,6 @@ namespace OpenAM.Agent
             IExceptionShield shield,
             ILog log) : base(shield)
         {
-            _namingProvider = namingProvider;
             _settingsProvider = settingsProvider;
             _contextHelper = contextHelper;
             _urlHelper = urlHelper;
@@ -44,7 +41,7 @@ namespace OpenAM.Agent
 
         public override void OnBeginRequest(HttpContextBase context)
         {
-            var settings = _settingsProvider.Get(_namingProvider.GetNaming());
+            var settings = _settingsProvider.Get();
             var url = _contextHelper.GetRequestUrl(context);
 
             _log.Debug(string.Format("Begin request url: {0} ip: {1}", url.AbsoluteUri, _contextHelper.GetClientIp(context, settings.ClientIpHeader)));
@@ -52,11 +49,10 @@ namespace OpenAM.Agent
 
         public override void OnAuthenticateRequest(HttpContextBase context)
         {
-            var naming = _namingProvider.GetNaming();
-            var settings = _settingsProvider.Get(naming);
+            var settings = _settingsProvider.Get();
             var url = _contextHelper.GetRequestUrl(context);
             var authCookie = _cookieHelper.GetCookieValue(context.Request, settings.AuthCookieName);
-            
+
             if (_urlHelper.RedirectIsNeeded(url, settings))
             {
                 context.Response.Redirect(_urlHelper.GetRedirectUrl(url, settings));
@@ -83,7 +79,7 @@ namespace OpenAM.Agent
 
             var session = _sessionProvider.GetSession(authCookie);
             var user = _userProvider.GetUser(session);
-            
+
             if (_contextHelper.CanAuthorizeUser(context, user, url, settings, session.Host))
             {
                 _contextHelper.AuthorizeUser(context, user, session, url, settings, authCookie);
@@ -98,7 +94,7 @@ namespace OpenAM.Agent
                 else
                 {
                     _cookieHelper.ResetCookies(context.Response, settings.ResetCookies);
-                    _contextHelper.LogoutUser(context,user, url, settings);
+                    _contextHelper.LogoutUser(context, user, url, settings);
                 }
             }
         }

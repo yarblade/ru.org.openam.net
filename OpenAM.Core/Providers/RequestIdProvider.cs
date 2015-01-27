@@ -1,10 +1,10 @@
 ﻿namespace OpenAM.Core.Providers
 {
-    public class RequestIdProvider : IRequestIdProvider
+    public class RequestIdProvider : IDataProvider<int>
     {
         private static int _requestId = 1;
 
-        public int GetRequestId()
+        public int Get()
         {
             return _requestId++;
         }

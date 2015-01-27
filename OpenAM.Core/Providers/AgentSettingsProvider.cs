@@ -1,20 +1,20 @@
-﻿using OpenAM.Core.Entities.Naming;
+﻿using OpenAM.Core.Entities.Session.Requests;
 using OpenAM.Core.Settings;
 
 namespace OpenAM.Core.Providers
 {
-    public class AgentSettingsProvider : IAgentSettingsProvider
+    public class AgentSettingsProvider : IDataProvider<AgentSettings>
     {
-        private readonly ISessionProvider _sessionProvider;
+        private readonly IDataProvider<Session> _sessionProvider;
 
-        public AgentSettingsProvider(ISessionProvider sessionProvider)
+        public AgentSettingsProvider(IDataProvider<Session> sessionProvider)
         {
             _sessionProvider = sessionProvider;
         }
 
-        public AgentSettings Get(Naming naming)
+        public AgentSettings Get()
         {
-            var session = _sessionProvider.GetSession(naming);
+            var session = _sessionProvider.Get();
 
             return new AgentSettings();
         }

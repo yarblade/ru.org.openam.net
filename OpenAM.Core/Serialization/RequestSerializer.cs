@@ -9,10 +9,10 @@ namespace OpenAM.Core.Serialization
 {
     public class RequestSerializer : IRequestSerializer
     {
-        private readonly IRequestIdProvider _requestIdProvider;
+        private readonly IDataProvider<int> _requestIdProvider;
         private readonly IXmlSerializer _serializer;
 
-        public RequestSerializer(IRequestIdProvider requestIdProvider, IXmlSerializer serializer)
+        public RequestSerializer(IDataProvider<int> requestIdProvider, IXmlSerializer serializer)
         {
             _requestIdProvider = requestIdProvider;
             _serializer = serializer;
@@ -24,7 +24,7 @@ namespace OpenAM.Core.Serialization
 
             var set = new RequestSet
             {
-                RequestId = _requestIdProvider.GetRequestId(),
+                RequestId = _requestIdProvider.Get(),
                 ServiceId = obj is NamingRequest ? NamingConstants.ServiceId : obj.Type.ToString().ToLowerInvariant(),
                 Version = RequestConstants.Version,
                 Request = new XmlDocument().CreateCDataSection(xml)
